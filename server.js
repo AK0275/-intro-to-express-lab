@@ -1,6 +1,6 @@
 const express = require('express');
 
-const morgan = require('express');
+// const morgan = require('express');
 
 const app = express();
 
@@ -22,15 +22,15 @@ const shoes = [
 ];
 
 
-app.get('/greetings/:userName', (req, res) => {
-    console.log(req.params.userName);
-    res.send( "Hello there, Christy!")
+app.get('/greetings/:name', (req, res) => {
+    console.log(req.params.name);
+    res.send( `Hello there, ${req.params.name}`)
 })
 
 app.get('/roll/:number', (req, res) => {
     const {number} = req.params;
 
-    if (itNot(number)) {
+    if (isNaN(number)) {
         return res.send('You must specify a number.')
     }
 
@@ -40,7 +40,7 @@ app.get('/roll/:number', (req, res) => {
         return res.send('You must specify a number greater than 0.')
     }
 
-    const rollRs = math.floor(math.random() * (maxNumber + 1))
+    const rollRs = Math.floor(Math.random() * (maxNumber + 1))
 
 res.send(`You rolled a ${rollRs}.`)
 })
@@ -48,7 +48,7 @@ res.send(`You rolled a ${rollRs}.`)
 app.get('/collectibles/:index', (req, res) => {
     const index = parseInt(req.params.index, 10)
 
-    if (itNot(index) || index < 0 || index >= collectibles.length) {
+    if (isNaN(index) || index < 0 || index >= collectibles.length) {
         return res.send('This item is not yet in stock. Check back soon!')
     }
 
@@ -65,14 +65,14 @@ app.get('/shoes', (req, res) => {
     if (minPrice) {
         const minPriceValue = parseFloat(minPrice)
 
-        if (!itNot(minPriceValue)) {
+        if (!isNaN(minPriceValue)) {
             filteredShoes = filteredShoes.filter(shoes => shoes.price >= minPriceValue)
         }
     }
 
     if (maxPrice) {
         const maxPriceValue = parseFloat(maxPrice)
-        if (!itNot(maxPriceValue)) {
+        if (!isNaN(maxPriceValue)) {
             filteredShoes = filteredShoes.filter(shoe => shoe.price <= maxPriceValue)
         }
     }
@@ -87,6 +87,6 @@ app.get('/shoes', (req, res) => {
 
 
 
-app.listen(3000, () => {
-    console.log('Listening on port 3000')
+app.listen(3001, () => {
+    console.log('Listening on port 3001')
 });
